@@ -1,0 +1,14 @@
+{
+  "name": "ci-syslogs",
+  "version": "1.0.0",
+  "description": "Logger to system UDP Client",
+  "main": "Logger.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Edgar Lizcano",
+  "license": "ISC",
+  "dependencies": {
+    "syslog-client": "^1.1.1"
+  }
+}
