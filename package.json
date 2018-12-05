@@ -1,6 +1,6 @@
 {
   "name": "ci-syslogs",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Logger to system UDP Client",
   "main": "Logger.js",
   "scripts": {
@@ -9,6 +9,7 @@
   "author": "Edgar Lizcano",
   "license": "ISC",
   "dependencies": {
-    "syslog-client": "^1.1.1"
+    "syslog-client": "^1.1.1",
+    "tsc": "^1.20150623.0"
   }
 }

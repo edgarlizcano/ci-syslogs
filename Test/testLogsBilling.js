@@ -1,5 +1,5 @@
-let logger = require ("../Logger");
+let logg = require("../Logger").Logger;
 
-var Logger = new logger.Logger("0.0.0.0", logger.Facility.Billing);
+var Log = new logg("0.0.0.0", logg.Facilities.Billing);
 
 Logger.LogDebug("Probando test billing");

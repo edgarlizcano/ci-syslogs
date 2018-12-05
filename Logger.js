@@ -1,133 +1,143 @@
-let syslog = require ("syslog-client");
-
-exports.Facility = {
-    Billetero: 17, //Local1
-    Billing: 18, //Local2
-    Logic: 19, //Local3
-    Machine: 20, //Local4
-    Monedero: 21, //Local5
-    Liquidation: 22, //Local6
-    Other: 23 //Local7
-};
-
-exports.Logger = class Logger {
-    constructor(ip, facility){
-        let createOptions = {
-            transport: syslog.Transport.Udp,
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var syslog_client_1 = require("syslog-client");
+var Logger = /** @class */ (function () {
+    function Logger(ip, facility) {
+        this.facility = facility;
+        var createOptions = {
+            transport: syslog_client_1.Transport.Udp,
             port: 514
         };
-        let client = syslog.createClient(ip, createOptions);
-        client.on("error", function(error) {
+        this.client = syslog_client_1.createClient(ip, createOptions);
+        this.client.on("error", function (error) {
             console.error(error);
-            client.close();
+            this.client.close();
         });
-        client.on("close", function() {
+        this.client.on("close", function () {
             console.log("connection closed");
         });
-
-        this.LogDebug=(message)=>{
-            let logOptions = {
-                facility: facility,
-                severity: syslog.Severity.Debug
-            };
-            client.log(message, logOptions, function(error) {
-                if (error) {
-                    console.error(error);
-                } else {
-                    console.log("Syslog-Debug: "+message);
-                }
-            })
-        }
-        this.LogInfo=(message)=>{
-            let logOptions = {
-                facility: facility,
-                severity: syslog.Severity.Informational
-            };
-            client.log(message, logOptions, function(error) {
-                if (error) {
-                    console.error(error);
-                } else {
-                    console.log("Syslog-Info: "+message);
-                }
-            })
-        }
-        this.LogNotice=(message)=>{
-            let logOptions = {
-                facility: facility,
-                severity: syslog.Severity.Notice
-            };
-            client.log(message, logOptions, function(error) {
-                if (error) {
-                    console.error(error);
-                } else {
-                    console.log("Syslog-Notice: "+message);
-                }
-            })
-        }
-        this.LogWarning=(message)=>{
-            let logOptions = {
-                facility: facility,
-                severity: syslog.Severity.Warning
-            };
-            client.log(message, logOptions, function(error) {
-                if (error) {
-                    console.error(error);
-                } else {
-                    console.log("Syslog-Warning: "+message);
-                }
-            })
-        }
-        this.LogError=(message)=>{
-            let logOptions = {
-                facility: facility,
-                severity: syslog.Severity.Error
-            };
-            client.log(message, logOptions, function(error) {
-                if (error) {
-                    console.error(error);
-                } else {
-                    console.log("Syslog-Error: "+message);
-                }
-            })
-        }
-        this.LogCritical=(message)=>{
-            let logOptions = {
-                facility: facility,
-                severity: syslog.Severity.Critical
-            };
-            client.log(message, logOptions, function(error) {
-                if (error) {
-                    console.error(error);
-                } else {
-                    console.log("Syslog-Critical: "+message);
-                }
-            })
-        }
-        this.LogAlert=(message)=>{
-            let logOptions = {
-                facility: facility,
-                severity: syslog.Severity.Alert
-            };
-            client.log(message, logOptions, function(error) {
-                if (error) {
-                    console.error(error);
-                } else {
-                    console.log("Syslog-Alert: "+message);
-                }
-            })
-        }
-        this.LogEmergency=(message)=>{
-            let logOptions = {
-                facility: facility,
-                severity: syslog.Severity.Emergency
-            };
-            client.log(message, logOptions, function(error) {
-                if (error) {
-                    console.error(error);
-                } else {
-                    console.log("Syslog-Emergency: "+message);
-                }
-            })
-        }
     }
-}
+    Logger.prototype.LogDebug = function (message) {
+        var logOptions = {
+            facility: this.facility,
+            severity: syslog_client_1.Severity.Debug
+        };
+        this.client.log(message, logOptions, function (error) {
+            if (error) {
+                console.error(error);
+            }
+            else {
+                console.log("Syslog-Debug: " + message);
+            }
+        });
+    };
+    Logger.prototype.LogInfo = function (message) {
+        var logOptions = {
+            facility: this.facility,
+            severity: syslog_client_1.Severity.Informational
+        };
+        this.client.log(message, logOptions, function (error) {
+            if (error) {
+                console.error(error);
+            }
+            else {
+                console.log("Syslog-Info: " + message);
+            }
+        });
+    };
+    Logger.prototype.LogNotice = function (message) {
+        var logOptions = {
+            facility: this.facility,
+            severity: syslog_client_1.Severity.Notice
+        };
+        this.client.log(message, logOptions, function (error) {
+            if (error) {
+                console.error(error);
+            }
+            else {
+                console.log("Syslog-Notice: " + message);
+            }
+        });
+    };
+    Logger.prototype.LogWarning = function (message) {
+        var logOptions = {
+            facility: this.facility,
+            severity: syslog_client_1.Severity.Warning
+        };
+        this.client.log(message, logOptions, function (error) {
+            if (error) {
+                console.error(error);
+            }
+            else {
+                console.log("Syslog-Warning: " + message);
+            }
+        });
+    };
+    Logger.prototype.LogError = function (message) {
+        var logOptions = {
+            facility: this.facility,
+            severity: syslog_client_1.Severity.Error
+        };
+        this.client.log(message, logOptions, function (error) {
+            if (error) {
+                console.error(error);
+            }
+            else {
+                console.log("Syslog-Error: " + message);
+            }
+        });
+    };
+    Logger.prototype.LogCritical = function (message) {
+        var logOptions = {
+            facility: this.facility,
+            severity: syslog_client_1.Severity.Critical
+        };
+        this.client.log(message, logOptions, function (error) {
+            if (error) {
+                console.error(error);
+            }
+            else {
+                console.log("Syslog-Critical: " + message);
+            }
+        });
+    };
+    Logger.prototype.LogAlert = function (message) {
+        var logOptions = {
+            facility: this.facility,
+            severity: syslog_client_1.Severity.Alert
+        };
+        this.client.log(message, logOptions, function (error) {
+            if (error) {
+                console.error(error);
+            }
+            else {
+                console.log("Syslog-Alert: " + message);
+            }
+        });
+    };
+    Logger.prototype.LogEmergency = function (message) {
+        var logOptions = {
+            facility: this.facility,
+            severity: syslog_client_1.Severity.Emergency
+        };
+        this.client.log(message, logOptions, function (error) {
+            if (error) {
+                console.error(error);
+            }
+            else {
+                console.log("Syslog-Emergency: " + message);
+            }
+        });
+    };
+    Logger.Facilities = {
+        Billetero: 17,
+        Billing: 18,
+        Logic: 19,
+        Machine: 20,
+        Monedero: 21,
+        Liquidation: 22,
+        Other: 23 //Local7
+    };
+    return Logger;
+}());
+exports.Logger = Logger;
