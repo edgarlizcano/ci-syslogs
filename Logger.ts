@@ -1,4 +1,4 @@
-import syslog from "syslog-client";
+import * as syslog from "syslog-client";
 
 export class Logger {
     private facility: any;
@@ -13,12 +13,34 @@ export class Logger {
         Other: 23 //Local7
     };
 
+    public static Severities = {
+        Emergency:     0,
+        Alert:         1,
+        Critical:      2,
+        Error:         3,
+        Warning:       4,
+        Notice:        5,
+        Informational: 6,
+        Debug:         7
+    };
+
+    private options = {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric'
+    };
+
     constructor(ip: string, facility: any) {
         this.facility = facility;
         let createOptions = {
             transport: syslog.Transport.Udp,
             port: 514
         };
+
         this.client = syslog.createClient(ip, createOptions);
         this.client.on("error", function (error) {
             console.error(error);
@@ -28,107 +50,19 @@ export class Logger {
             console.log("connection closed");
         });
     }
-    public LogDebug (message):void{
+
+    public WriteLog=(message, severity)=>{
+        let date  = new Date();
+        let datetime = date.toLocaleDateString("es-CO",this.options);
         let logOptions = {
             facility: this.facility,
-            severity: syslog.Severity.Debug
+            severity: severity
         };
-        this.client.log(message, logOptions, function(error) {
+        this.client.log(+datetime+"-"+message, logOptions, function(error) {
             if (error) {
                 console.error(error);
             } else {
-                console.log("Syslog-Debug: "+message);
-            }
-        })
-    }
-    public LogInfo(message):void{
-        let logOptions = {
-            facility: this.facility,
-            severity: syslog.Severity.Informational
-        };
-        this.client.log(message, logOptions, function(error) {
-            if (error) {
-                console.error(error);
-            } else {
-                console.log("Syslog-Info: "+message);
-            }
-        })
-    }
-    LogNotice(message):void{
-        let logOptions = {
-            facility: this.facility,
-            severity: syslog.Severity.Notice
-        };
-        this.client.log(message, logOptions, function(error) {
-            if (error) {
-                console.error(error);
-            } else {
-                console.log("Syslog-Notice: "+message);
-            }
-        })
-    }
-    public LogWarning(message):void{
-        let logOptions = {
-            facility: this.facility,
-            severity: syslog.Severity.Warning
-        };
-        this.client.log(message, logOptions, function(error) {
-            if (error) {
-                console.error(error);
-            } else {
-                console.log("Syslog-Warning: "+message);
-            }
-        })
-    }
-    public LogError(message):void{
-        let logOptions = {
-            facility: this.facility,
-            severity: syslog.Severity.Error
-        };
-        this.client.log(message, logOptions, function(error) {
-            if (error) {
-                console.error(error);
-            } else {
-                console.log("Syslog-Error: "+message);
-            }
-        })
-    }
-     public LogCritical(message):void{
-        let logOptions = {
-            facility: this.facility,
-            severity: syslog.Severity.Critical
-        };
-        this.client.log(message, logOptions, function(error) {
-            if (error) {
-                console.error(error);
-            } else {
-                console.log("Syslog-Critical: "+message);
-            }
-        })
-    }
-    public LogAlert(message):void{
-        let logOptions = {
-            facility: this.facility,
-            severity: syslog.Severity.Alert
-        };
-        this.client.log(message, logOptions, function(error) {
-            if (error) {
-                console.error(error);
-            } else {
-                console.log("Syslog-Alert: "+message);
-            }
-        })
-    }
-    public LogEmergency (message):void{
-        let logOptions = {
-            facility: this.facility,
-            severity: syslog.Severity.Emergency
-        };
-        this.client.log(message, logOptions, function(error) {
-            if (error) {
-                console.error(error);
-            } else {
-                console.log("Syslog-Emergency: "+message);
+                console.log("Syslog-"+severity+": "+datetime+" - "+message);
             }
         })
     }
