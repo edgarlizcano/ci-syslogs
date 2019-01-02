@@ -1,6 +1,6 @@
 {
   "name": "ci-syslogs",
-  "version": "3.0.5",
+  "version": "5.0.0",
   "description": "Logger to system UDP Client",
   "main": "Logger.js",
   "scripts": {
