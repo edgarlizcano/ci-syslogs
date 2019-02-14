@@ -4,28 +4,17 @@ var syslog = require("syslog-client");
 var Logger = /** @class */ (function () {
     function Logger(ip, facility) {
         var _this = this;
-        this.options = {
-            weekday: 'long',
-            year: 'numeric',
-            month: 'numeric',
-            day: 'numeric',
-            hour: 'numeric',
-            minute: 'numeric',
-            second: 'numeric'
-        };
         this.WriteLog = function (message, severity) {
-            var date = new Date();
-            var msg = date.toLocaleDateString("es-CO", _this.options) + " - " + message;
             var logOptions = {
                 facility: _this.facility,
                 severity: severity
             };
-            _this.client.log(msg, logOptions, function (error) {
+            _this.client.log(message, logOptions, function (error) {
                 if (error) {
                     console.error(error);
                 }
                 else {
-                    console.log("Syslog-" + severity + ": " + msg);
+                    console.log("Syslog-" + severity + ": " + message);
                 }
             });
         };
@@ -65,3 +54,4 @@ var Logger = /** @class */ (function () {
     return Logger;
 }());
 exports.Logger = Logger;
+//# sourceMappingURL=Logger.js.map

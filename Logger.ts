@@ -24,16 +24,6 @@ export class Logger {
         Debug:         7
     };
 
-    private options = {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'numeric',
-        day: 'numeric',
-        hour: 'numeric',
-        minute: 'numeric',
-        second: 'numeric'
-    };
-
     constructor(ip: string, facility: any) {
         this.facility = facility;
         let createOptions = {
@@ -52,17 +42,15 @@ export class Logger {
     }
 
     public WriteLog=(message, severity)=>{
-        let date  = new Date();
-        let msg:string = date.toLocaleDateString("es-CO",this.options) +" - "+ message;
         let logOptions = {
             facility: this.facility,
             severity: severity
         };
-        this.client.log(msg, logOptions, function(error) {
+        this.client.log(message, logOptions, function(error) {
             if (error) {
                 console.error(error);
             } else {
-                console.log("Syslog-"+severity+": "+msg);
+                console.log("Syslog-"+severity+": "+message);
             }
         })
     }
